@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { Verse } from "@/lib/types";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -7,10 +8,11 @@ export const dynamic = 'force-dynamic';
 export default async function BrowsePage({
     searchParams,
 }: {
-    searchParams: { q?: string };
+    searchParams: Promise<{ q?: string }>;
 }) {
-    const query = searchParams.q || "";
-    let verses = [];
+    const resolvedParams = await searchParams;
+    const query = resolvedParams.q || "";
+    let verses: Verse[] = [];
 
     try {
         if (query) {
