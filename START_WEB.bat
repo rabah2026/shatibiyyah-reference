@@ -1,0 +1,6 @@
+@echo off
+echo Starting Shatibiyyah Companion (Unified Web App)...
+echo.
+echo [1/1] Starting Next.js App (Frontend + API)...
+cd /d "%~dp0web"
+npm run dev

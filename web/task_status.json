@@ -1,0 +1,149 @@
+[
+    {
+        "id": 1,
+        "name": "Task 0: Discovery & API Contract",
+        "status": "done",
+        "subtasks": [
+            {
+                "id": 1,
+                "name": "Inspect repo for framework, routes, API, data models",
+                "status": "done"
+            },
+            {
+                "id": 2,
+                "name": "Define and print API Contract",
+                "status": "done"
+            },
+            {
+                "id": 3,
+                "name": "Implement missing endpoints if any",
+                "status": "done"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Implementation A: Setup & Types",
+        "status": "in-progress",
+        "subtasks": [
+            {
+                "id": 25,
+                "name": "Initialize Next.js app in web/",
+                "status": "in-progress"
+            },
+            {
+                "id": 26,
+                "name": "Configure Tailwind RTL & Theme",
+                "status": "todo"
+            },
+            {
+                "id": 5,
+                "name": "Create Zod schemas for Bayt, Verse, Symbol",
+                "status": "todo"
+            },
+            {
+                "id": 6,
+                "name": "Create TypeScript types from schemas",
+                "status": "todo"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Implementation B: Screens & UI",
+        "status": "todo",
+        "subtasks": [
+            {
+                "id": 8,
+                "name": "Home Screen",
+                "status": "todo"
+            },
+            {
+                "id": 9,
+                "name": "Browse Screen",
+                "status": "todo"
+            },
+            {
+                "id": 10,
+                "name": "Bayt Details Screen",
+                "status": "todo"
+            },
+            {
+                "id": 11,
+                "name": "Mushaf Link Mode",
+                "status": "todo"
+            },
+            {
+                "id": 12,
+                "name": "Symbols Dictionary",
+                "status": "todo"
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Implementation C: Data Wiring",
+        "status": "todo",
+        "subtasks": [
+            {
+                "id": 14,
+                "name": "Implement /lib/api.ts",
+                "status": "todo"
+            },
+            {
+                "id": 15,
+                "name": "Wire Home & Browse",
+                "status": "todo"
+            },
+            {
+                "id": 16,
+                "name": "Wire Bayt Details",
+                "status": "todo"
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "name": "Implementation D: State & Features",
+        "status": "todo",
+        "subtasks": [
+            {
+                "id": 18,
+                "name": "Implement Continue Reading",
+                "status": "todo"
+            },
+            {
+                "id": 19,
+                "name": "Persist font size and theme",
+                "status": "todo"
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Implementation E: Final Polish",
+        "status": "todo",
+        "subtasks": [
+            {
+                "id": 21,
+                "name": "Ensure correct RTL layout",
+                "status": "todo"
+            },
+            {
+                "id": 22,
+                "name": "Mobile-first responsiveness check",
+                "status": "todo"
+            },
+            {
+                "id": 23,
+                "name": "Performance check",
+                "status": "todo"
+            },
+            {
+                "id": 24,
+                "name": "Create README section",
+                "status": "todo"
+            }
+        ]
+    }
+]
