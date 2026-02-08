@@ -1,8 +1,8 @@
+// Data service using direct JSON imports (Vercel compatible)
+// The JSON is bundled at build time, no fs operations at runtime
 
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
+import baytData from '../data/bayt_text.json';
+import metaData from '../data/meta.json';
 
 export interface Bayt {
     id: number;
@@ -14,46 +14,29 @@ export interface Bayt {
 
 export interface Meta {
     title: string;
+    description?: string;
     version: string;
     source: string;
+    generated_at?: string;
 }
 
-let _bayts: Bayt[] | null = null;
-let _meta: Meta | null = null;
-
-function loadData() {
-    if (_bayts && _meta) return;
-
-    try {
-        const baytPath = path.join(DATA_DIR, 'bayt_text.json');
-        const metaPath = path.join(DATA_DIR, 'meta.json');
-
-        _bayts = JSON.parse(fs.readFileSync(baytPath, 'utf-8'));
-        _meta = JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
-    } catch (error) {
-        console.error("Failed to load data:", error);
-        _bayts = [];
-    }
-}
+const _bayts: Bayt[] = baytData as Bayt[];
+const _meta: Meta = metaData as Meta;
 
 export const DataService = {
     getMeta: () => {
-        loadData();
         return _meta;
     },
 
     getAllBayts: () => {
-        loadData();
         return _bayts || [];
     },
 
     getBaytByNumber: (num: number) => {
-        loadData();
         return _bayts?.find(b => b.number === num) || null;
     },
 
     search: (query: string) => {
-        loadData();
         if (!query.trim()) return [];
         const q = query.trim();
         // Simple inclusion search
@@ -61,7 +44,6 @@ export const DataService = {
     },
 
     getBaytsByChapter: (chapterId: number) => {
-        loadData();
         return (_bayts || []).filter(b => b.chapter === chapterId);
     }
 };
