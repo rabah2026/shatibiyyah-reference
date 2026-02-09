@@ -30,7 +30,7 @@ export default async function BaytPage({ params }: PageProps) {
 
     return (
         <div className="container mx-auto p-4 flex flex-col min-h-screen items-center justify-center max-w-3xl">
-            <Link href="/browse" className="absolute top-4 right-4 text-dark-brown/60 hover:text-dark-brown transition-colors">
+            <Link href="/browse" className="absolute top-4 right-4 text-xl text-dark-brown/60 hover:text-dark-brown transition-colors">
                 ✕ إغلاق
             </Link>
 
