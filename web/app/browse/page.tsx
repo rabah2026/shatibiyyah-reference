@@ -1,9 +1,15 @@
-import { api } from "@/lib/api";
-import { Verse } from "@/lib/types";
+import { DataService } from "@/lib/data";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export const dynamic = 'force-dynamic';
+
+// Type for the transformed verse data
+interface DisplayVerse {
+    id: number;
+    verseNumber: number;
+    text: string;
+    chapterId: number;
+}
 
 export default async function BrowsePage({
     searchParams,
@@ -12,17 +18,24 @@ export default async function BrowsePage({
 }) {
     const resolvedParams = await searchParams;
     const query = resolvedParams.q || "";
-    let verses: Verse[] = [];
+
+    // Direct data access - no HTTP fetch needed
+    let verses: DisplayVerse[] = [];
 
     try {
-        if (query) {
-            verses = await api.searchVerses(query);
-        } else {
-            verses = await api.getVerses();
-        }
+        const rawBayts = query
+            ? DataService.search(query)
+            : DataService.getAllBayts();
+
+        // Transform to display format
+        verses = rawBayts.map(b => ({
+            id: b.id,
+            verseNumber: b.number,
+            text: b.text,
+            chapterId: b.chapter,
+        }));
     } catch (e) {
-        console.error(e);
-        // Fallback or error state handled in UI
+        console.error("Error loading verses:", e);
     }
 
     return (
@@ -52,7 +65,7 @@ export default async function BrowsePage({
             <div className="space-y-4">
                 {verses.length === 0 ? (
                     <div className="text-center py-10 opacity-60 font-amiri">
-                        {query ? "لا توجد نتائج" : "جاري تحميل الأبيات..."}
+                        {query ? "لا توجد نتائج" : "لا توجد أبيات"}
                     </div>
                 ) : (
                     verses.map((verse) => (

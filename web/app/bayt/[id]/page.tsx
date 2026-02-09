@@ -1,4 +1,4 @@
-import { api } from "@/lib/api";
+import { DataService } from "@/lib/data";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -11,14 +11,18 @@ export default async function BaytPage({ params }: PageProps) {
     const id = parseInt(idString);
     if (isNaN(id)) notFound();
 
-    let verse;
-    try {
-        verse = await api.getVerseByNumber(id);
-    } catch (e) {
-        console.error(e);
-    }
+    // Direct data access - no HTTP fetch needed
+    const bayt = DataService.getBaytByNumber(id);
 
-    if (!verse) notFound();
+    if (!bayt) notFound();
+
+    // Transform to display format
+    const verse = {
+        id: bayt.id,
+        verseNumber: bayt.number,
+        text: bayt.text,
+        chapterId: bayt.chapter,
+    };
 
     // Navigation
     const prevId = id > 1 ? id - 1 : null;
