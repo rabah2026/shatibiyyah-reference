@@ -3,23 +3,41 @@ import { z } from "zod";
 
 
 function getBaseUrl() {
-    if (typeof window !== "undefined") return ""; // Browser: use relative url
-    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // Vercel SSR
-    if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-    return "http://localhost:3000"; // Local dev SSR
+    // Browser: use relative URLs
+    if (typeof window !== "undefined") {
+        return "";
+    }
+
+    // Vercel deployment
+    if (process.env.VERCEL_URL) {
+        // VERCEL_URL doesn't include protocol
+        return `https://${process.env.VERCEL_URL}`;
+    }
+
+    // Explicit API URL (fallback)
+    if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+        return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+    }
+
+    // Local development
+    return "http://localhost:3000";
 }
 
-const API_BASE_URL = getBaseUrl();
-
 async function fetchTRPC<T>(endpoint: string, schema: z.ZodType<T>, input?: any): Promise<T> {
-    const url = new URL(`${API_BASE_URL}/api/trpc/${endpoint}`, "http://localhost:3000"); // Base needed for relative URLs in Node
+    const baseUrl = getBaseUrl();
+
+    // Build URL properly based on environment
+    let urlString = `${baseUrl}/api/trpc/${endpoint}`;
 
     // tRPC HTTP spec: input parameter should be JSON stringified
     if (input !== undefined) {
-        url.searchParams.append("input", JSON.stringify(input));
+        const encodedInput = encodeURIComponent(JSON.stringify(input));
+        urlString += `?input=${encodedInput}`;
     }
 
-    const res = await fetch(url.toString(), {
+    console.log('[API] Fetching:', urlString);
+
+    const res = await fetch(urlString, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
