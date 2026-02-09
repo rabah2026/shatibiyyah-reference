@@ -51,7 +51,7 @@ export default async function BaytPage({ params }: PageProps) {
             </div>
 
             {/* Navigation - dir=rtl already handles RTL, so first item appears on RIGHT */}
-            <div className="flex items-center justify-center gap-8 text-lg font-amiri w-full">
+            <div className="flex items-center justify-center gap-12 text-2xl font-amiri w-full">
                 {prevId ? (
                     <Link href={`/bayt/${prevId}`} className="hover:text-gold transition-colors">
                         → البيت السابق
