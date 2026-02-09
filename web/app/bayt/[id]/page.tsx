@@ -50,19 +50,19 @@ export default async function BaytPage({ params }: PageProps) {
                 <p className="text-dark-brown/40 text-sm">غير متوفر في البيانات</p>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center gap-8 text-lg font-amiri">
-                {nextId ? (
-                    <Link href={`/bayt/${nextId}`} className="hover:text-gold transition-colors">
-                        البيت التالي ←
-                    </Link>
-                ) : <span className="opacity-30">البيت التالي ←</span>}
-
+            {/* Navigation - RTL: Previous on right, Next on left */}
+            <div className="flex items-center justify-center gap-8 text-lg font-amiri w-full">
                 {prevId ? (
                     <Link href={`/bayt/${prevId}`} className="hover:text-gold transition-colors">
-                        → البيت السابق
+                        البيت السابق →
                     </Link>
-                ) : <span className="opacity-30">→ البيت السابق</span>}
+                ) : <span className="opacity-30">البيت السابق →</span>}
+
+                {nextId ? (
+                    <Link href={`/bayt/${nextId}`} className="hover:text-gold transition-colors">
+                        ← البيت التالي
+                    </Link>
+                ) : <span className="opacity-30">← البيت التالي</span>}
             </div>
         </div>
     );
