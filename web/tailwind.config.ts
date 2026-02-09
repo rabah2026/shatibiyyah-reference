@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+    darkMode: "class",
     content: [
         "./app/**/*.{js,ts,jsx,tsx,mdx}",
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,9 +12,9 @@ const config: Config = {
             colors: {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
-                parchment: "#fcf6e5",
-                "dark-brown": "#3e2723",
-                gold: "#c5a059",
+                parchment: "var(--parchment)",
+                "dark-brown": "var(--dark-brown)",
+                gold: "var(--gold)",
             },
             fontFamily: {
                 amiri: ["var(--font-amiri)"],

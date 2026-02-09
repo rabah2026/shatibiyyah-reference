@@ -1,42 +1,54 @@
-"use client";
+"use client"
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { storage } from "@/lib/storage";
+import * as React from "react"
+import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme } from "next-themes"
+import { type ThemeProviderProps } from "next-themes"
+import { storage, STORAGE_KEYS } from "@/lib/storage"
 
-type ThemeContextType = {
+interface ThemeContextType {
     fontSize: number;
     setFontSize: (size: number) => void;
-};
+}
 
-const ThemeContext = createContext<ThemeContextType>({
-    fontSize: 24,
-    setFontSize: () => { },
-});
+const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [fontSize, setFontSizeState] = useState(24);
-    const [mounted, setMounted] = useState(false);
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+    const [fontSize, setFontSizeState] = React.useState(24);
 
-    useEffect(() => {
-        const saved = localStorage.getItem("shatibiyyah_font_size");
-        if (saved) setFontSizeState(parseInt(saved, 10));
-        setMounted(true);
+    React.useEffect(() => {
+        const saved = storage.get(STORAGE_KEYS.FONT_SIZE);
+        if (saved) {
+            setFontSizeState(parseInt(saved, 10));
+        }
     }, []);
 
     const setFontSize = (size: number) => {
         setFontSizeState(size);
-        localStorage.setItem("shatibiyyah_font_size", size.toString());
+        storage.set(STORAGE_KEYS.FONT_SIZE, size.toString());
     };
 
-    if (!mounted) return <div style={{ opacity: 0 }}>{children}</div>;
-
     return (
-        <ThemeContext.Provider value={{ fontSize, setFontSize }}>
-            <div style={{ fontSize: `${fontSize}px` }} className="contents">
-                {children}
-            </div>
-        </ThemeContext.Provider>
-    );
+        <NextThemesProvider {...props}>
+            <ThemeContext.Provider value={{ fontSize, setFontSize }}>
+                <div style={{ fontSize: `${fontSize}px` }} className="contents">
+                    {children}
+                </div>
+            </ThemeContext.Provider>
+        </NextThemesProvider>
+    )
 }
 
-export const useTheme = () => useContext(ThemeContext);
+export function useTheme() {
+    const context = React.useContext(ThemeContext);
+    const nextTheme = useNextTheme();
+
+    if (context === undefined) {
+        throw new Error("useTheme must be used within a ThemeProvider");
+    }
+
+    return {
+        ...nextTheme,
+        fontSize: context.fontSize,
+        setFontSize: context.setFontSize,
+    };
+}

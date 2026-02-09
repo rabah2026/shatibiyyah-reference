@@ -81,7 +81,7 @@ export default function SearchableBrowse({ initialVerses }: SearchableBrowseProp
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="بحث في الأبيات... (٣ أحرف على الأقل)"
-                        className="w-full bg-white/50 border border-dark-brown/20 rounded-lg py-2 px-4 focus:outline-none focus:border-gold font-amiri placeholder:text-dark-brown/40"
+                        className="w-full bg-white/50 dark:bg-black/20 border border-dark-brown/20 rounded-lg py-2 px-4 focus:outline-none focus:border-gold font-amiri placeholder:text-dark-brown/40"
                     />
                     {isSearching && (
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-dark-brown/50">
@@ -107,7 +107,7 @@ export default function SearchableBrowse({ initialVerses }: SearchableBrowseProp
                             <Link
                                 key={verse.id}
                                 href={`/bayt/${verse.verseNumber}`}
-                                className="block p-4 rounded-lg bg-white/40 hover:bg-white/70 border border-transparent hover:border-gold/30 transition-all cursor-pointer group"
+                                className="block p-4 rounded-lg bg-white/40 hover:bg-white/70 dark:bg-white/5 dark:hover:bg-white/10 border border-transparent hover:border-gold/30 transition-all cursor-pointer group"
                             >
                                 <div className="flex justify-between items-start text-xs opacity-40 mb-1 font-sans">
                                     <span>#{verse.verseNumber}</span>

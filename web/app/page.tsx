@@ -3,7 +3,7 @@ import { ContinueReading } from "@/components/ContinueReading";
 
 export default function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-8 text-center space-y-8 bg-parchment text-dark-brown">
+        <main className="flex min-h-screen flex-col items-center justify-center p-8 text-center space-y-8 bg-background text-foreground">
             <h1 className="text-5xl font-bold font-amiri text-dark-brown drop-shadow-sm mb-4">
                 متن الشاطبية
             </h1>

@@ -2,13 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --background: #fcf6e5;
-    --foreground: #3e2723;
-}
-
 @layer base {
+    :root {
+        /* Light Mode (Parchment) */
+        --background: #fcf6e5;
+        --foreground: #3e2723;
+        --parchment: #fcf6e5;
+        --dark-brown: #3e2723;
+        --gold: #c5a059;
+    }
+
+    .dark {
+        /* Dark Mode (Midnight/Deep Brown) */
+        --background: #1a120e;
+        /* Very dark brown/black */
+        --foreground: #efebe9;
+        /* Off-white */
+        --parchment: #2d1f1b;
+        /* Slightly lighter dark background for cards */
+        --dark-brown: #efebe9;
+        /* Inverted: text becomes light */
+        --gold: #d4af37;
+        /* Gold remains similar but slightly brighter */
+    }
+
     body {
-        @apply bg-parchment text-dark-brown antialiased;
+        @apply bg-background text-foreground antialiased transition-colors duration-300;
     }
 }
