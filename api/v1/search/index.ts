@@ -1,6 +1,6 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { CanonicalData } from '../../_lib/canonical';
+import { CanonicalData } from '../../shared/canonical.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
     const { q } = req.query;

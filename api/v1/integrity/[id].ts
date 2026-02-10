@@ -1,7 +1,7 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createHash } from 'crypto';
-import { CanonicalData } from '../../_lib/canonical';
+import { CanonicalData } from '../../shared/canonical.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
     const { id } = req.query;
