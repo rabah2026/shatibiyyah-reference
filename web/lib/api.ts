@@ -71,7 +71,7 @@ async function fetchTRPC<T>(endpoint: string, schema: z.ZodType<T>, input?: any)
 }
 
 export const api = {
-    getVerses: () => fetchTRPC("shatibiyyah.verses.list", VerseListResponseSchema),
+    getVerses: (chapterId?: number) => fetchTRPC("shatibiyyah.verses.list", VerseListResponseSchema, chapterId ? { chapterId } : undefined),
 
     getVerseByNumber: (number: number) =>
         fetchTRPC("shatibiyyah.verses.byNumber", VerseSchema, number),

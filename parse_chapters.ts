@@ -5,15 +5,17 @@ import path from 'path';
 const filePath = path.join(process.cwd(), 'extracted_doc_text.txt');
 const outputPath = path.join(process.cwd(), 'chapters_final.json');
 
+
 try {
-    const text = fs.readFileSync(filePath, 'utf-8').replace(/^\uFEFF/, '');
+    const text = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '');
 
     // Debug: Check first chars
-    console.log("First chars codes:", text.charCodeAt(0), text.charCodeAt(1), text.charCodeAt(2), text.charCodeAt(3));
+    console.log("First chars codes:", text.charCodeAt(0), text.charCodeAt(1));
     console.log("First 100 chars:", text.substring(0, 100));
 
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
     console.log(`Read ${lines.length} non-empty lines.`);
+
 
     // Debug: Check first 5 lines
     for (let k = 0; k < Math.min(5, lines.length); k++) {

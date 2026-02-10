@@ -16,8 +16,8 @@ const BaytSchema = z.object({
 const ChapterSchema = z.object({
     id: z.number(),
     name: z.string(),
-    description: z.string().nullable(),
-    orderIndex: z.number(),
+    start: z.number(),
+    end: z.number(),
 });
 
 // Since our JSON data doesn't have chapters, we'll mock them for now based on the original API contract
@@ -32,17 +32,22 @@ const DEFAULT_CHAPTER = {
 export const appRouter = router({
     shatibiyyah: router({
         verses: router({
-            list: publicProcedure.query(() => {
-                const bayts = DataService.getAllBayts();
-                return bayts.map(b => ({
-                    id: b.id,
-                    verseNumber: b.number,
-                    text: b.text,
-                    fullText: b.text,
-                    chapterId: b.chapter,
-                    createdAt: new Date().toISOString()
-                }));
-            }),
+            list: publicProcedure
+                .input(z.object({ chapterId: z.number().optional() }).optional())
+                .query(({ input }) => {
+                    const bayts = input?.chapterId
+                        ? DataService.getBaytsByChapterId(input.chapterId)
+                        : DataService.getAllBayts();
+
+                    return bayts.map(b => ({
+                        id: b.id,
+                        verseNumber: b.number,
+                        text: b.text,
+                        fullText: b.text,
+                        chapterId: b.chapter,
+                        createdAt: new Date().toISOString()
+                    }));
+                }),
 
             byNumber: publicProcedure
                 .input(z.number())
@@ -76,8 +81,13 @@ export const appRouter = router({
 
         chapters: router({
             list: publicProcedure.query(() => {
-                return [DEFAULT_CHAPTER];
-            })
+                return DataService.getChapters();
+            }),
+            byId: publicProcedure
+                .input(z.number())
+                .query(({ input }) => {
+                    return DataService.getChapterById(input);
+                })
         })
     }),
 });

@@ -11,12 +11,30 @@ interface DisplayVerse {
     chapterId: number;
 }
 
-export default async function BrowsePage() {
-    // Load all verses server-side for initial render
+interface BrowsePageProps {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function BrowsePage({ searchParams }: BrowsePageProps) {
+    // Load verses server-side
     let verses: DisplayVerse[] = [];
+    let titleOverride: string | undefined;
 
     try {
-        const rawBayts = DataService.getAllBayts();
+        const params = await searchParams;
+        const chapterId = params?.chapterId ? parseInt(params.chapterId as string) : undefined;
+
+        let rawBayts;
+        if (chapterId) {
+            rawBayts = DataService.getBaytsByChapterId(chapterId);
+            const chapter = DataService.getChapterById(chapterId);
+            if (chapter) {
+                titleOverride = chapter.name;
+            }
+        } else {
+            rawBayts = DataService.getAllBayts();
+        }
+
         verses = rawBayts.map(b => ({
             id: b.id,
             verseNumber: b.number,
@@ -28,5 +46,6 @@ export default async function BrowsePage() {
     }
 
     // Pass to client component for instant search
-    return <SearchableBrowse initialVerses={verses} />;
+    return <SearchableBrowse initialVerses={verses} titleOverride={titleOverride} />;
 }
+

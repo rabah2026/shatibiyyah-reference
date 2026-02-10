@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -12,6 +13,7 @@ interface DisplayVerse {
 
 interface SearchableBrowseProps {
     initialVerses: DisplayVerse[];
+    titleOverride?: string;
 }
 
 /**
@@ -31,7 +33,7 @@ function normalizeArabic(text: string): string {
     return normalized;
 }
 
-export default function SearchableBrowse({ initialVerses }: SearchableBrowseProps) {
+export default function SearchableBrowse({ initialVerses, titleOverride }: SearchableBrowseProps) {
     const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState('');
 
@@ -69,8 +71,8 @@ export default function SearchableBrowse({ initialVerses }: SearchableBrowseProp
                     <Link href="/" className="text-dark-brown hover:text-gold transition-colors">
                         ← الرئيسية
                     </Link>
-                    <h1 className="text-2xl font-bold font-amiri text-dark-brown">
-                        {debouncedQuery ? `نتائج البحث: ${debouncedQuery}` : "متن الشاطبية"}
+                    <h1 className="text-2xl font-bold font-amiri text-dark-brown text-center flex-1 mx-4">
+                        {debouncedQuery ? `نتائج البحث: ${debouncedQuery}` : (titleOverride || "متن الشاطبية")}
                     </h1>
                     <div className="w-8" />
                 </div>

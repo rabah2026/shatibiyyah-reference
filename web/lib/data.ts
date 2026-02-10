@@ -3,6 +3,7 @@
 
 import baytData from '../data/bayt_text.json';
 import metaData from '../data/meta.json';
+import { chapters } from '../data/chapters';
 
 export interface Bayt {
     id: number;
@@ -64,15 +65,29 @@ export const DataService = {
     search: (query: string) => {
         if (!query.trim()) return [];
         // Normalize query (strip diacritics, normalize letters)
-        const normalizedQuery = normalizeArabic(query.trim());
+        const normalizedQuery = normalizeArabic(query.trim()); // @ts-ignore
         // Search in normalized verse text
         return (_bayts || []).filter(b => {
-            const normalizedText = normalizeArabic(b.text);
+            const normalizedText = normalizeArabic(b.text); // @ts-ignore
             return normalizedText.includes(normalizedQuery);
         });
     },
 
-    getBaytsByChapter: (chapterId: number) => {
-        return (_bayts || []).filter(b => b.chapter === chapterId);
+    getChapters: () => {
+        return chapters;
+    },
+
+    getChapterById: (id: number) => {
+        return chapters.find(c => c.id === id) || null;
+    },
+
+    getChapterByVerse: (verseNumber: number) => {
+        return chapters.find(c => verseNumber >= c.start && verseNumber <= c.end) || null;
+    },
+
+    getBaytsByChapterId: (chapterId: number) => {
+        const chapter = chapters.find(c => c.id === chapterId);
+        if (!chapter) return [];
+        return (_bayts || []).filter(b => b.number >= chapter.start && b.number <= chapter.end);
     }
 };
