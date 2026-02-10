@@ -21,6 +21,13 @@ export default function Home() {
                     تصفح المتن
                 </Link>
 
+                <Link
+                    href="/chapters"
+                    className="bg-white/80 text-dark-brown border border-dark-brown/20 py-3 px-6 rounded-lg text-lg hover:bg-white transition-colors font-amiri block shadow-sm"
+                >
+                    فهرس الأبواب
+                </Link>
+
                 <div className="flex gap-2 w-full">
                     <Link
                         href="/mushaf-link"
